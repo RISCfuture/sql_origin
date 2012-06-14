@@ -24,7 +24,7 @@ module SQLOrigin
     included { alias_method_chain :sql, :backtrace }
 
     def sql_with_backtrace(event)
-      sql_without_backtrace event
+      return unless sql_without_backtrace(event)
 
       if event.payload[:backtrace].any?
         event.payload[:backtrace].each do |line|
