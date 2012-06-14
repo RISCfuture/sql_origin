@@ -13,6 +13,7 @@ module SQLOrigin
       line.sub /^#{Regexp.escape Rails.root.to_s}\//, ''
     end.select do |line|
       !line.starts_with?("/") &&
+          !line.starts_with?("(") &&
           LIBRARY_PATHS.none? { |path| line.starts_with?(path) }
     end
   end
