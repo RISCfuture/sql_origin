@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="SQL:Origin : Add backtraces to your query log and queries themselves." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>SQL:Origin</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/RISCfuture/sql_origin">View on GitHub</a>
+
+          <h1 id="project_title">SQL:Origin</h1>
+          <h2 id="project_tagline">Add backtraces to your query log and queries themselves.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/RISCfuture/sql_origin/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/RISCfuture/sql_origin/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>Adds backtraces to your SQL queries and query logs, so you know where your
+queries are coming from. This only works with Rails, and is only tested with
+Rails 3.2.</p>
+
+<h2>Why do I want this?</h2>
+
+<p>Simple. To turn this</p>
+
+<p><img src="https://img.skitch.com/20120614-rg8sqa2t7eweaj4swjqcufrcjr.png" alt="Without backtrace logging"></p>
+
+<p>into this.</p>
+
+<p><img src="https://img.skitch.com/20120614-kcisbjqiaxfwbq82wbjm4iumfa.png" alt="With backtrace logging"></p>
+
+<p>So now, you needn't wonder where that odd-looking or broken SQL query is coming
+from.</p>
+
+<p>It can also turn this</p>
+
+<pre><code>Reading mysql slow query log from /usr/local/mysql/data/mysqld51-apple-slow.log
+Count: 1  Time=4.32s (4s)  Lock=0.00s (0s)  Rows=0.0 (0), root[root]@localhost
+ SELECT "events".* FROM "events" WHERE "events"."bug_id" = ?
+
+Count: 3  Time=2.53s (7s)  Lock=0.00s (0s)  Rows=0.0 (0), root[root]@localhost
+ SELECT "deploys".* FROM "deploys" WHERE "deploys"."id" = ?
+
+Count: 3  Time=2.13s (6s)  Lock=0.00s (0s)  Rows=0.0 (0), root[root]@localhost
+ SELECT * FROM "slugs" WHERE (LOWER("slugs"."slug") = LOWER(?) AND "slugs"."scope" IS NULL AND "slugs"."sluggable_type" = ?) LIMIT 1
+</code></pre>
+
+<p>into this.</p>
+
+<pre><code>Reading mysql slow query log from /usr/local/mysql/data/mysqld51-apple-slow.log
+Count: 1  Time=4.32s (4s)  Lock=0.00s (0s)  Rows=0.0 (0), root[root]@localhost
+ SELECT "events".* FROM "events" WHERE "events"."bug_id" = ? /* app/models/project.rb:125:in `_callback_after_617' */
+
+Count: 3  Time=2.53s (7s)  Lock=0.00s (0s)  Rows=0.0 (0), root[root]@localhost
+ SELECT "deploys".* FROM "deploys" WHERE "deploys"."id" = ? /* app/controllers/projects_controller.rb:359:in `require_or_load' */
+
+Count: 3  Time=2.13s (6s)  Lock=0.00s (0s)  Rows=0.0 (0), root[root]@localhost
+ SELECT * FROM "slugs" WHERE (LOWER("slugs"."slug") = LOWER(?) AND "slugs"."scope" IS NULL AND "slugs"."sluggable_type" = ?) LIMIT 1 /* app/models/observers/bug_observer.rb:23:in `create_open_event' */
+</code></pre>
+
+<h2>Installation</h2>
+
+<p>To use, add SQL:Origin to your Gemfile:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'sql_origin'</span>
+</pre>
+</div>
+
+
+<p>If you would like to add three-line backtraces below every SQL query in your
+Rails log, add</p>
+
+<div class="highlight">
+<pre><span class="no">SQLOrigin</span><span class="o">.</span><span class="n">append_to_log</span>
+</pre>
+</div>
+
+
+<p>somewhere in your Rails initialization (e.g., <code>application.rb</code> or a
+<code>config/initializer</code> file).</p>
+
+<p>If you would like to add a one-line backtrace comment to every SQL query, add</p>
+
+<div class="highlight">
+<pre><span class="no">SQLOrigin</span><span class="o">.</span><span class="n">append_to_query</span>
+</pre>
+</div>
+
+
+<p>somewhere in your Rails initialization.</p>
+
+<p>It would be typical to enable <code>append_to_log</code> for development and test, and
+<code>append_to_query</code> for production, in order to keep production logs small.</p>
+
+<h3>Backtrace Filtering</h3>
+
+<p>By default, files not under your Rails root, and files under <code>vendor</code>, are
+filtered from your backtrace. If you need to filter other files, add them to
+{SQLOrigin::LIBRARY_PATHS}:</p>
+
+<div class="highlight">
+<pre><span class="no">SQLOrigin</span><span class="o">::</span><span class="no">LIBRARY_PATHS</span> <span class="o">&lt;&lt;</span> <span class="s1">'config/initializers/active_record_hacks.rb'</span>
+</pre>
+</div>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">SQL:Origin maintained by <a href="https://github.com/RISCfuture">RISCfuture</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
