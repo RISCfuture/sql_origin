@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "sql_origin"
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tim Morgan"]
-  s.date = "2012-06-14"
+  s.date = "2012-06-18"
   s.description = "Ever wonder where a SQL query comes from? This gem lets you add abbreviated backtraces to those queries, either in the query log, or as a comment in the query itself."
   s.email = "rubygems@timothymorgan.info"
   s.extra_rdoc_files = [
