@@ -25,6 +25,7 @@ module SQLOrigin
 
     def sql_with_backtrace(event)
       return unless sql_without_backtrace(event)
+      return unless event.payload[:backtrace]
 
       if event.payload[:backtrace].any?
         event.payload[:backtrace].each do |line|
