@@ -40,11 +40,11 @@ module SQLOrigin
     extend ActiveSupport::Concern
     included { alias_method_chain :execute, :backtrace }
 
-    def execute_with_backtrace(sql, name=nil, binds=[])
+    def execute_with_backtrace(sql, name=nil)
       if (line = SQLOrigin.filtered_backtrace.first)
-        execute_without_backtrace "#{sql} /* #{line} */", name, binds
+        execute_without_backtrace "#{sql} /* #{line} */", name
       else
-        execute_without_backtrace sql, name, binds
+        execute_without_backtrace sql, name
       end
     end
   end

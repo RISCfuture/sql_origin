@@ -3,7 +3,7 @@ SQL:Origin
 
 Adds backtraces to your SQL queries and query logs, so you know where your
 queries are coming from. This only works with Rails, and is only tested with
-Rails 3.2.
+Rails 4.0.
 
 Why do I want this?
 -------------------
