@@ -21,7 +21,7 @@ module SQLOrigin
   # Enables SQL:Origin backtrace logging to the Rails log.
 
   def self.append_to_log
-    %w( PostgreSQLAdapter MysqlAdapter Mysql2Adapter OracleAdapter SQLiteAdapter ).each do |name|
+    %w( PostgreSQLAdapter MysqlAdapter Mysql2Adapter OracleAdapter SQLiteAdapter SQLite3Adapter ).each do |name|
       adapter = ActiveRecord::ConnectionAdapters.const_get(name.to_sym) rescue nil
       if adapter
         adapter.send :include, SQLOrigin::LogHook
