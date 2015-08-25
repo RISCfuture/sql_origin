@@ -1,14 +1,15 @@
 module SQLOrigin
   # @private
   module LogHook
-    def log(sql, name = "SQL", binds = [])
+    def log(sql, name = "SQL", binds = [], statement_name = nil)
       @instrumenter.instrument(
           "sql.active_record",
-          :sql           => sql,
-          :name          => name,
-          :connection_id => object_id,
-          :binds         => binds,
-          :backtrace     => SQLOrigin.filtered_backtrace[0, 3]) { yield }
+          :sql            => sql,
+          :name           => name,
+          :connection_id  => object_id,
+          :binds          => binds,
+          :statement_name => statement_name,
+          :backtrace      => SQLOrigin.filtered_backtrace[0, 3]) { yield }
     rescue Exception => e
       message = "#{e.class.name}: #{e.message}: #{sql}"
       @logger.debug message if @logger
