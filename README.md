@@ -1,3 +1,9 @@
+## ⚠️ DEPRECATED
+
+**This gem is no longer maintained.** Modern Rails has [`ActiveRecord::QueryLogs`](https://api.rubyonrails.org/classes/ActiveRecord/QueryLogs.html) (built-in since Rails 7) which provides equivalent query-origin tracking.
+
+---
+
 SQL:Origin
 ==========
 

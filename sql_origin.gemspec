@@ -6,7 +6,7 @@
 
 Gem::Specification.new do |s|
   s.name = "sql_origin"
-  s.version = "1.1.2"
+  s.version = "1.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
@@ -35,7 +35,16 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/RISCfuture/sql_origin"
   s.licenses = ["MIT"]
   s.rubygems_version = "2.4.8"
-  s.summary = "Add backtraces to your query log and queries themselves."
+  s.summary = "[DEPRECATED] Add backtraces to your query log and queries themselves."
+  s.post_install_message = <<~MSG
+
+    ⚠️  DEPRECATED: sql_origin is no longer maintained.
+
+    Modern Rails has `ActiveRecord::QueryLogs` (built-in since Rails 7) which provides equivalent query-origin tracking.
+
+    This is the final release. No further updates are planned.
+
+  MSG
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
